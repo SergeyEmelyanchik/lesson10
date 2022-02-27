@@ -1,4 +1,4 @@
-package ru.geekbrains.lesson10;
+package ru.geekbrains.lesson10.ui;
 
 import android.os.Bundle;
 
@@ -12,6 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import ru.geekbrains.lesson10.R;
+import ru.geekbrains.lesson10.repo.LocalRepoImpl;
 
 
 public class SocialFragment extends Fragment implements OnItemClickListner{
@@ -40,7 +43,9 @@ public class SocialFragment extends Fragment implements OnItemClickListner{
 
     void initAdapter() {
         socialAdapter = new SocialAdapter();
-        socialAdapter.setData(getData());
+        LocalRepoImpl localRepoImpl = new LocalRepoImpl(requireContext().getResources());
+        localRepoImpl.init();
+        socialAdapter.setData(localRepoImpl.init());
         socialAdapter.setOnItemClickListner(SocialFragment.this); //место куда ты передаешь клики (кусочек фрагмента) буду Я
     }
 

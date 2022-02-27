@@ -1,5 +1,17 @@
 <resources>
-    <string name="app_name">lesson10</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="app_name">Social Network</string>
+    <string name="title1">Путь</string>
+    <string name="title2">Режим</string>
+    <string name="title3">Брат</string>
+    <string name="title4">Друг</string>
+    <string name="title5">Свобода</string>
+    <string name="title6">Война</string>
+    <string name="description1">То что нас ждет впереди!</string>
+    <string name="description2">Верым! Можам! Переможам!</string>
+    <string name="description3">Держись брат!</string>
+    <string name="description4">Друзья в беде не бросают!</string>
+    <string name="description5">Свобода - мысли! Свобода - слова! Демократия!</string>
+    <string name="description6">Скажи НЕТ насилию!</string>
+
 </resources>

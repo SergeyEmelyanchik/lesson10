@@ -1,8 +1,10 @@
-package ru.geekbrains.lesson10;
+package ru.geekbrains.lesson10.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import ru.geekbrains.lesson10.R;
 
 public class MainActivity extends AppCompatActivity {
 
