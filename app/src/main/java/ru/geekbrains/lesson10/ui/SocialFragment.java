@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,7 +19,7 @@ import ru.geekbrains.lesson10.R;
 import ru.geekbrains.lesson10.repo.LocalRepoImpl;
 
 
-public class SocialFragment extends Fragment implements OnItemClickListner{
+public class SocialFragment extends Fragment implements OnItemClickListner {
 
     SocialAdapter socialAdapter;
 
@@ -56,6 +58,12 @@ public class SocialFragment extends Fragment implements OnItemClickListner{
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(socialAdapter);
+
+        DividerItemDecoration itemDecoration = new DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL);
+        itemDecoration.setDrawable(getResources().getDrawable(R.drawable.separator));
+        recyclerView.addItemDecoration(itemDecoration);
+
+
     }
 
     String[] getData() {
@@ -66,7 +74,7 @@ public class SocialFragment extends Fragment implements OnItemClickListner{
     @Override
     public void onItemClick(int position) {
         String[] data = getData();
-        Toast.makeText(requireContext(), "Нажали на"+data[position], Toast.LENGTH_SHORT).show();
+        Toast.makeText(requireContext(), "Нажали на" + data[position], Toast.LENGTH_SHORT).show();
 
     }
 }

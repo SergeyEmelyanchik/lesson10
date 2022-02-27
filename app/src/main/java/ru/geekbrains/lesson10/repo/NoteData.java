@@ -1,13 +1,13 @@
 package ru.geekbrains.lesson10.repo;
 
 
-public class CardData{
+public class NoteData {
     private String title;
     private String description;
     private int picture;
     private boolean like;
 
-    public CardData(String title, String description, int picture, boolean like) {
+    public NoteData(String title, String description, int picture, boolean like) {
         this.title = title;
         this.description = description;
         this.picture = picture;

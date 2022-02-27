@@ -13,5 +13,7 @@
     <string name="description4">Друзья в беде не бросают!</string>
     <string name="description5">Свобода - мысли! Свобода - слова! Демократия!</string>
     <string name="description6">Скажи НЕТ насилию!</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
 
 </resources>

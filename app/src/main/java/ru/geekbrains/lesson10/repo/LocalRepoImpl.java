@@ -8,14 +8,14 @@ import java.util.List;
 
 import ru.geekbrains.lesson10.R;
 
-public class LocalRepoImpl implements CardsSource {
+public class LocalRepoImpl implements NoteSource {
 
-        private List<CardData> dataSource;
+        private List<NoteData> dataSource;
         private Resources resources;
 
 
         public LocalRepoImpl(Resources resources){
-            dataSource = new ArrayList<CardData>();
+            dataSource = new ArrayList<NoteData>();
             this.resources = resources;
         }
 
@@ -26,7 +26,7 @@ public class LocalRepoImpl implements CardsSource {
             TypedArray pictures = resources.obtainTypedArray(R.array.pictures);
 
             for(int i=0;i<titles.length;i++){
-                dataSource.add(new CardData(titles[i],descriptions[i],pictures.getResourceId(i,0),false));
+                dataSource.add(new NoteData(titles[i],descriptions[i],pictures.getResourceId(i,0),false));
             }
             return this;
         }
@@ -37,12 +37,12 @@ public class LocalRepoImpl implements CardsSource {
         }
 
         @Override
-        public List<CardData> getAllCardsData() {
+        public List<NoteData> getAllCardsData() {
             return dataSource;
         }
 
         @Override
-        public CardData getCardData(int position) {
+        public NoteData getCardData(int position) {
             return dataSource.get(position);
 
         }

@@ -11,26 +11,28 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import ru.geekbrains.lesson10.R;
-import ru.geekbrains.lesson10.repo.CardData;
-import ru.geekbrains.lesson10.repo.CardsSource;
+import ru.geekbrains.lesson10.repo.NoteData;
+import ru.geekbrains.lesson10.repo.NoteSource;
 
 public class SocialAdapter extends RecyclerView.Adapter<SocialAdapter.MyViewHolder> {
 
-    private CardsSource cardSource;
+    private NoteSource cardSource;
     OnItemClickListner onItemClickListner;
 
-    public void setOnItemClickListner(OnItemClickListner onItemClickListner){
+    public void setOnItemClickListner(OnItemClickListner onItemClickListner) {
         this.onItemClickListner = onItemClickListner;
     }
 
-    public void setData(CardsSource cardSource) {
+    public void setData(NoteSource cardSource) {
         this.cardSource = cardSource;
         notifyDataSetChanged(); // команда адаптеру перерисовать ВСЕ полученые данные
     }
-    SocialAdapter (CardsSource cardSource) {
+
+    SocialAdapter(NoteSource cardSource) {
         this.cardSource = cardSource;
     }
-    SocialAdapter(){
+
+    SocialAdapter() {
 
     }
 
@@ -75,7 +77,7 @@ public class SocialAdapter extends RecyclerView.Adapter<SocialAdapter.MyViewHold
         }
 
         // в этом методе связываем контент с макетом
-        public void bindContentWithLayout(CardData content) {
+        public void bindContentWithLayout(NoteData content) {
             textViewTitle.setText(content.getTitle());
             textViewDescription.setText(content.getDescription());
             imageView.setImageResource(content.getPicture());
