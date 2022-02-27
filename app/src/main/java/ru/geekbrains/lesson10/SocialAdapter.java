@@ -11,6 +11,11 @@ import androidx.recyclerview.widget.RecyclerView;
 public class SocialAdapter extends RecyclerView.Adapter<SocialAdapter.MyViewHolder> {
 
     private String[] data;
+    OnItemClickListner onItemClickListner;
+
+    public void setOnItemClickListner(OnItemClickListner onItemClickListner){
+        this.onItemClickListner = onItemClickListner;
+    }
 
     public void setData(String[] data) {
         this.data = data;
@@ -41,6 +46,14 @@ public class SocialAdapter extends RecyclerView.Adapter<SocialAdapter.MyViewHold
         public MyViewHolder(@NonNull View itemView) {//определяем ViewHolder который удерживает наш макет
             super(itemView);
             textView = (TextView) itemView;
+            textView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (onItemClickListner!=null){
+                        onItemClickListner.onItemClick(getLayoutPosition());
+                    }
+                }
+            });
         }
 
         // в этом методе связываем контент с макетом

@@ -11,9 +11,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 
-public class SocialFragment extends Fragment {
+public class SocialFragment extends Fragment implements OnItemClickListner{
 
     SocialAdapter socialAdapter;
 
@@ -40,6 +41,7 @@ public class SocialFragment extends Fragment {
     void initAdapter() {
         socialAdapter = new SocialAdapter();
         socialAdapter.setData(getData());
+        socialAdapter.setOnItemClickListner(SocialFragment.this); //место куда ты передаешь клики (кусочек фрагмента) буду Я
     }
 
 
@@ -56,4 +58,10 @@ public class SocialFragment extends Fragment {
         return data;
     }
 
+    @Override
+    public void onItemClick(int position) {
+        String[] data = getData();
+        Toast.makeText(requireContext(), "Нажали на"+data[position], Toast.LENGTH_SHORT).show();
+
+    }
 }
