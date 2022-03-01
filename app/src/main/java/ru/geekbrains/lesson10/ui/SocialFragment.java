@@ -58,12 +58,14 @@ public class SocialFragment extends Fragment implements OnItemClickListner {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) { //вешаем обработку кликов
         switch (item.getItemId()) {
-            case R.id.action_add: {
+            case R.id.action_add: { // добавление новой карточки
                 data.addNoteData(new NoteData("Заголовок новой карточки" + data.size(),
                         "Описание новой карточки" + data.size(), R.drawable.flag, false));
                 socialAdapter.notifyDataSetChanged();
             }
-            case R.id.action_clear: {
+            case R.id.action_clear: { // очистка всего списка
+                data.clearNotesData();
+                socialAdapter.notifyDataSetChanged();
             }
         }
         return super.onOptionsItemSelected(item);
