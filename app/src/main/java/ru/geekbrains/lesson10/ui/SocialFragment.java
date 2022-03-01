@@ -5,23 +5,28 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import ru.geekbrains.lesson10.R;
 import ru.geekbrains.lesson10.repo.LocalRepoImpl;
+import ru.geekbrains.lesson10.repo.NoteData;
+import ru.geekbrains.lesson10.repo.NotesSource;
 
 
 public class SocialFragment extends Fragment implements OnItemClickListner {
 
     SocialAdapter socialAdapter;
+    NotesSource data;
 
     public static SocialFragment newInstance() {
         SocialFragment fragment = new SocialFragment();
@@ -40,14 +45,34 @@ public class SocialFragment extends Fragment implements OnItemClickListner {
         super.onViewCreated(view, savedInstanceState);
         initAdapter();
         initRecycler(view);
+        setHasOptionsMenu(true);//говорим что менюшки есть
 
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.notes_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) { //вешаем обработку кликов
+        switch (item.getItemId()) {
+            case R.id.action_add: {
+                data.addNoteData(new NoteData("Заголовок новой карточки" + data.size(),
+                        "Описание новой карточки" + data.size(), R.drawable.flag, false));
+                socialAdapter.notifyDataSetChanged();
+            }
+            case R.id.action_clear: {
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     void initAdapter() {
         socialAdapter = new SocialAdapter();
-        LocalRepoImpl localRepoImpl = new LocalRepoImpl(requireContext().getResources());
-        localRepoImpl.init();
-        socialAdapter.setData(localRepoImpl.init());
+        data = new LocalRepoImpl(requireContext().getResources()).init();
+        socialAdapter.setData(data);
         socialAdapter.setOnItemClickListner(SocialFragment.this); //место куда ты передаешь клики (кусочек фрагмента) буду Я
     }
 

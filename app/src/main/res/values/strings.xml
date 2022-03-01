@@ -16,4 +16,7 @@
     <string name="title">Title</string>
     <string name="description">Description</string>
 
+    <string name="add">Добавить</string>
+    <string name="clear">Очистить</string>
+
 </resources>

@@ -12,24 +12,24 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import ru.geekbrains.lesson10.R;
 import ru.geekbrains.lesson10.repo.NoteData;
-import ru.geekbrains.lesson10.repo.NoteSource;
+import ru.geekbrains.lesson10.repo.NotesSource;
 
 public class SocialAdapter extends RecyclerView.Adapter<SocialAdapter.MyViewHolder> {
 
-    private NoteSource cardSource;
+    private NotesSource notesSource;
     OnItemClickListner onItemClickListner;
 
     public void setOnItemClickListner(OnItemClickListner onItemClickListner) {
         this.onItemClickListner = onItemClickListner;
     }
 
-    public void setData(NoteSource cardSource) {
-        this.cardSource = cardSource;
+    public void setData(NotesSource notesSource) {
+        this.notesSource = notesSource;
         notifyDataSetChanged(); // команда адаптеру перерисовать ВСЕ полученые данные
     }
 
-    SocialAdapter(NoteSource cardSource) {
-        this.cardSource = cardSource;
+    SocialAdapter(NotesSource notesSource) {
+        this.notesSource = notesSource;
     }
 
     SocialAdapter() {
@@ -46,12 +46,12 @@ public class SocialAdapter extends RecyclerView.Adapter<SocialAdapter.MyViewHold
 
     @Override // метод связвывает уже созданый ViewHolder с его позицией
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.bindContentWithLayout(cardSource.getCardData(position));
+        holder.bindContentWithLayout(notesSource.getNoteData(position));
     }
 
     @Override
     public int getItemCount() { //метод который возращает его размер
-        return cardSource.size();
+        return notesSource.size();
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
