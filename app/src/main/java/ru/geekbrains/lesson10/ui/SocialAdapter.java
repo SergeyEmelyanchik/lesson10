@@ -8,6 +8,7 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import ru.geekbrains.lesson10.R;
@@ -18,6 +19,15 @@ public class SocialAdapter extends RecyclerView.Adapter<SocialAdapter.MyViewHold
 
     private NotesSource notesSource;
     OnItemClickListner onItemClickListner;
+    Fragment fragment;
+
+    private int menuPosition;
+
+    public int getMenuPosition() {
+        return menuPosition;
+    }
+
+
 
     public void setOnItemClickListner(OnItemClickListner onItemClickListner) {
         this.onItemClickListner = onItemClickListner;
@@ -31,8 +41,11 @@ public class SocialAdapter extends RecyclerView.Adapter<SocialAdapter.MyViewHold
     SocialAdapter(NotesSource notesSource) {
         this.notesSource = notesSource;
     }
+    SocialAdapter(){
 
-    SocialAdapter() {
+    }
+    SocialAdapter(Fragment fragment) {
+        this.fragment = fragment;
 
     }
 
@@ -40,7 +53,7 @@ public class SocialAdapter extends RecyclerView.Adapter<SocialAdapter.MyViewHold
     @Override // метод который создает ViewHolder и зависимость от viewType
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        return new MyViewHolder(layoutInflater.inflate(R.layout.fragment_social_cardview_item, parent, false));
+        return new MyViewHolder(layoutInflater.inflate(R.layout.fragment_social_noteview_item, parent, false));
 
     }
 
@@ -55,10 +68,10 @@ public class SocialAdapter extends RecyclerView.Adapter<SocialAdapter.MyViewHold
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        private TextView textViewTitle;
-        private TextView textViewDescription;
-        private ImageView imageView;
-        private ToggleButton toggleButton;
+        private final TextView textViewTitle;
+        private final TextView textViewDescription;
+        private final ImageView imageView;
+        private final ToggleButton toggleButton;
 
         public MyViewHolder(@NonNull View itemView) {//определяем ViewHolder который удерживает наш макет
             super(itemView);
@@ -66,6 +79,25 @@ public class SocialAdapter extends RecyclerView.Adapter<SocialAdapter.MyViewHold
             textViewDescription = (TextView) itemView.findViewById(R.id.description);
             imageView = (ImageView) itemView.findViewById(R.id.imageView);
             toggleButton = (ToggleButton) itemView.findViewById(R.id.like);
+
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    menuPosition = getLayoutPosition();
+                    return false;
+                }
+            });
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    menuPosition = getLayoutPosition();
+                    return false;
+                }
+            });
+            fragment.registerForContextMenu(itemView);
+
             /* textView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

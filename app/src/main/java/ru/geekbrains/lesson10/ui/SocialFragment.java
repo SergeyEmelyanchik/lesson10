@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,6 +28,7 @@ public class SocialFragment extends Fragment implements OnItemClickListner {
 
     SocialAdapter socialAdapter;
     NotesSource data;
+
 
     public static SocialFragment newInstance() {
         SocialFragment fragment = new SocialFragment();
@@ -61,18 +63,46 @@ public class SocialFragment extends Fragment implements OnItemClickListner {
             case R.id.action_add: { // добавление новой карточки
                 data.addNoteData(new NoteData("Заголовок новой карточки" + data.size(),
                         "Описание новой карточки" + data.size(), R.drawable.flag, false));
-                socialAdapter.notifyDataSetChanged();
+                socialAdapter.notifyItemInserted(data.size() - 1);
+                return true;
             }
             case R.id.action_clear: { // очистка всего списка
                 data.clearNotesData();
                 socialAdapter.notifyDataSetChanged();
+                return true;
             }
         }
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onCreateContextMenu(@NonNull ContextMenu menu, @NonNull View v, @Nullable ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        requireActivity().getMenuInflater().inflate(R.menu.note_menu, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        int menuPosition = socialAdapter.getMenuPosition();
+        switch (item.getItemId()) {
+            case R.id.action_update: {
+                data.updateNoteData(menuPosition, new NoteData("Заголовок обновленной карточки" + data.size(),
+                        "Описание обновленной карточки" + data.size(), data.getNoteData(menuPosition).getPicture(), false));
+                socialAdapter.notifyItemChanged(menuPosition);
+                return true;
+            }
+            case R.id.action_delete: {
+                data.deleteNoteData(menuPosition);
+                socialAdapter.notifyItemRemoved(menuPosition);
+                return true;
+            }
+        }
+        return super.onContextItemSelected(item);
+    }
+
+
     void initAdapter() {
-        socialAdapter = new SocialAdapter();
+        socialAdapter = new SocialAdapter(this);
         data = new LocalRepoImpl(requireContext().getResources()).init();
         socialAdapter.setData(data);
         socialAdapter.setOnItemClickListner(SocialFragment.this); //место куда ты передаешь клики (кусочек фрагмента) буду Я

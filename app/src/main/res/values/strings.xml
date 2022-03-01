@@ -19,4 +19,7 @@
     <string name="add">Добавить</string>
     <string name="clear">Очистить</string>
 
+    <string name="update">Изменить</string>
+    <string name="delete">Удалить</string>
+    <string name="save">Save</string>
 </resources>
