@@ -1,4 +1,4 @@
-package ru.geekbrains.lesson10.ui;
+package ru.geekbrains.lesson10.ui.main;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -111,7 +111,7 @@ public class SocialAdapter extends RecyclerView.Adapter<SocialAdapter.MyViewHold
         // в этом методе связываем контент с макетом
         public void bindContentWithLayout(NoteData content) {
             textViewTitle.setText(content.getTitle());
-            textViewDescription.setText(content.getDescription());
+            textViewDescription.setText(content.getDescription()+"  "+content.getDate());
             imageView.setImageResource(content.getPicture());
             toggleButton.setChecked(content.isLike());
         }

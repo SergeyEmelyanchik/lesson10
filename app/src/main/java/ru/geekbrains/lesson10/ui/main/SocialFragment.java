@@ -1,4 +1,4 @@
-package ru.geekbrains.lesson10.ui;
+package ru.geekbrains.lesson10.ui.main;
 
 import android.os.Bundle;
 
@@ -19,10 +19,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import java.util.Calendar;
+
 import ru.geekbrains.lesson10.R;
+import ru.geekbrains.lesson10.publisher.Observer;
 import ru.geekbrains.lesson10.repo.LocalRepoImpl;
 import ru.geekbrains.lesson10.repo.NoteData;
 import ru.geekbrains.lesson10.repo.NotesSource;
+import ru.geekbrains.lesson10.ui.MainActivity;
+import ru.geekbrains.lesson10.ui.editor.NoteEditorFragment;
 
 
 public class SocialFragment extends Fragment implements OnItemClickListner {
@@ -64,9 +69,9 @@ public class SocialFragment extends Fragment implements OnItemClickListner {
         switch (item.getItemId()) {
             case R.id.action_add: { // добавление новой карточки
                 data.addNoteData(new NoteData("Заголовок новой карточки" + data.size(),
-                        "Описание новой карточки" + data.size(), R.drawable.flag, false));
+                        "Описание новой карточки" + data.size(), R.drawable.flag, false, Calendar.getInstance().getTime()));
                 socialAdapter.notifyItemInserted(data.size() - 1);
-                recyclerView.smoothScrollToPosition(data.size()-1); //плавный скрол
+                recyclerView.smoothScrollToPosition(data.size() - 1); //плавный скрол
                 return true;
             }
             case R.id.action_clear: { // очистка всего списка
@@ -89,9 +94,21 @@ public class SocialFragment extends Fragment implements OnItemClickListner {
         int menuPosition = socialAdapter.getMenuPosition();
         switch (item.getItemId()) {
             case R.id.action_update: {
-                data.updateNoteData(menuPosition, new NoteData("Заголовок обновленной карточки" + data.size(),
-                        "Описание обновленной карточки" + data.size(), data.getNoteData(menuPosition).getPicture(), false));
-                socialAdapter.notifyItemChanged(menuPosition);
+                /* data.updateNoteData(menuPosition, new NoteData("Заголовок обновленной карточки" + data.size(),
+                        "Описание обновленной карточки" + data.size(), data.getNoteData(menuPosition).getPicture(), false, Calendar.getInstance().getTime()));
+                socialAdapter.notifyItemChanged(menuPosition); */
+
+
+                Observer observer = new Observer() {
+                    @Override
+                    public void receiveMessage(NoteData noteData) {
+                        ((MainActivity) requireActivity()).getPublisher().unsubscride(this);
+                        data.updateNoteData(menuPosition, noteData);
+                        socialAdapter.notifyItemChanged(menuPosition);
+                    }
+                };
+                ((MainActivity) requireActivity()).getPublisher().subscride(observer);
+                ((MainActivity) requireActivity()).getNavigation().addFragment(NoteEditorFragment.newInstance(data.getNoteData(menuPosition)), true);
                 return true;
             }
             case R.id.action_delete: {
@@ -142,4 +159,6 @@ public class SocialFragment extends Fragment implements OnItemClickListner {
         Toast.makeText(requireContext(), "Нажали на" + data[position], Toast.LENGTH_SHORT).show();
 
     }
+
 }
+
