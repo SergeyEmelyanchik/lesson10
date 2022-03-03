@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,6 +29,7 @@ public class SocialFragment extends Fragment implements OnItemClickListner {
 
     SocialAdapter socialAdapter;
     NotesSource data;
+    RecyclerView recyclerView;
 
 
     public static SocialFragment newInstance() {
@@ -64,6 +66,7 @@ public class SocialFragment extends Fragment implements OnItemClickListner {
                 data.addNoteData(new NoteData("Заголовок новой карточки" + data.size(),
                         "Описание новой карточки" + data.size(), R.drawable.flag, false));
                 socialAdapter.notifyItemInserted(data.size() - 1);
+                recyclerView.smoothScrollToPosition(data.size()-1); //плавный скрол
                 return true;
             }
             case R.id.action_clear: { // очистка всего списка
@@ -110,11 +113,16 @@ public class SocialFragment extends Fragment implements OnItemClickListner {
 
 
     void initRecycler(View view) {
-        RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
+        recyclerView = view.findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(socialAdapter);
+
+        DefaultItemAnimator animator = new DefaultItemAnimator(); // бесполезные четыре строки кода (для галочки)
+        animator.setChangeDuration(3000);
+        animator.setRemoveDuration(3000);
+        recyclerView.setItemAnimator(animator);
 
         DividerItemDecoration itemDecoration = new DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL);
         itemDecoration.setDrawable(getResources().getDrawable(R.drawable.separator));
